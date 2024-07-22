@@ -9,6 +9,7 @@ import styles from "@/styles/app.module.scss";
 import "@/styles/reset.scss";
 import { usePathname } from "next/navigation";
 import LayoutApp from "../share/layout.app";
+import { MessengerChat } from "react-messenger-chat-plugin";
 
 interface IProps {
   children: React.ReactNode;
@@ -44,6 +45,34 @@ const AppContent = (props: IProps) => {
   return !isSpecialPage
     ? isClient && (
         <LayoutApp>
+          <MessengerChat
+            pageId="117093431423153"
+            language="en_US"
+            themeColor={"#000000"}
+            bottomSpacing={300}
+            loggedInGreeting="loggedInGreeting"
+            loggedOutGreeting="loggedOutGreeting"
+            greetingDialogDisplay={"show"}
+            debugMode={true}
+            onMessengerShow={() => {
+              console.log("onMessengerShow");
+            }}
+            onMessengerHide={() => {
+              console.log("onMessengerHide");
+            }}
+            onMessengerDialogShow={() => {
+              console.log("onMessengerDialogShow");
+            }}
+            onMessengerDialogHide={() => {
+              console.log("onMessengerDialogHide");
+            }}
+            onMessengerMounted={() => {
+              console.log("onMessengerMounted");
+            }}
+            onMessengerLoad={() => {
+              console.log("onMessengerLoad");
+            }}
+          />
           <div className="layout-app" ref={rootRef}>
             <Header />
             <div className={styles["content-app"]}>{props.children}</div>

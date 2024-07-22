@@ -4,7 +4,6 @@ import "./globals.css";
 import { Providers } from "@/redux/provider";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
 import AppContent from "@/component/client/app.content";
-import { MessengerChat } from "react-messenger-chat-plugin";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,35 +20,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MessengerChat
-          pageId="117093431423153"
-          language="en_US"
-          themeColor={"#000000"}
-          bottomSpacing={300}
-          loggedInGreeting="loggedInGreeting"
-          loggedOutGreeting="loggedOutGreeting"
-          greetingDialogDisplay={"show"}
-          debugMode={true}
-          onMessengerShow={() => {
-            console.log("onMessengerShow");
-          }}
-          onMessengerHide={() => {
-            console.log("onMessengerHide");
-          }}
-          onMessengerDialogShow={() => {
-            console.log("onMessengerDialogShow");
-          }}
-          onMessengerDialogHide={() => {
-            console.log("onMessengerDialogHide");
-          }}
-          onMessengerMounted={() => {
-            console.log("onMessengerMounted");
-          }}
-          onMessengerLoad={() => {
-            console.log("onMessengerLoad");
-          }}
-        />
-        ,
         <Providers>
           <StyledComponentsRegistry>
             <AppContent>{children}</AppContent>
