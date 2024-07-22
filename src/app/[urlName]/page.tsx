@@ -112,7 +112,7 @@ const ProductDetailPage = () => {
     ((productDetail?.basePrice as any) *
       (productDetail?.discountPercentage ?? 0)) /
       100;
-
+  console.log(productDetail?.picture);
   return (
     <>
       <Banner title={productDetail?.name as string} />

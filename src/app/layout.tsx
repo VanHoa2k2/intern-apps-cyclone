@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/redux/provider";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
-
 import AppContent from "@/component/client/app.content";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +26,31 @@ export default function RootLayout({
             <AppContent>{children}</AppContent>
           </StyledComponentsRegistry>
         </Providers>
+        <div id="fb-root"></div>
+        {/* <!-- Your Chat plugin code --> */}
+        <div id="fb-customer-chat" className="fb-customerchat"></div>
+        <Script id="fb-chat" strategy="lazyOnload">
+          {`
+            var chatbox = document.getElementById('fb-customer-chat');
+            chatbox.setAttribute("page_id", "117093431423153");
+            chatbox.setAttribute("attribution", "biz_inbox");
+
+            window.fbAsyncInit = function() {
+              FB.init({
+                xfbml            : true,
+                version          : 'v12.0'
+              });
+            };
+
+            (function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+          `}
+        </Script>
       </body>
     </html>
   );
