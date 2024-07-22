@@ -40,8 +40,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 interface IOptionCategory {
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
 }
 
 interface IProductImage {
