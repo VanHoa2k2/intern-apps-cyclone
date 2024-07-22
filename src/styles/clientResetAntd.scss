@@ -1,0 +1,27 @@
+.ant-input {
+  height: 40px;
+
+  &:focus {
+    border-color: #272343 !important;
+  }
+
+  &:hover {
+    border-color: #272343 !important;
+  }
+}
+
+.ant-input-search-button {
+  padding: 0 18px;
+  background-color: #d6d2d2;
+  color: #272343;
+  font-size: 18px;
+
+  &:hover {
+    color: #d6d2d2 !important;
+    background: #272343 !important;
+  }
+}
+
+.ant-dropdown-trigger {
+  height: 40px;
+}

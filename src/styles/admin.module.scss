@@ -1,0 +1,88 @@
+.upsert-job-container {
+  background-color: white;
+  padding: 10px 30px;
+  border-radius: 5px;
+  min-height: 100vh;
+  height: auto;
+
+  .title {
+    padding: 10px 0 20px 0;
+  }
+}
+
+.picture-product-wrap {
+  position: relative;
+  text-align: center;
+
+  .picture-product {
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    object-fit: cover;
+  }
+
+  .btn-update-picture-product {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+
+  &:hover {
+    .picture-product {
+      opacity: 0.3;
+    }
+
+    .btn-update-picture-product {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      color: #265cd9;
+    }
+  }
+}
+
+.css-dev-only-do-not-override-m4timi {
+  flex: 0 0 1 !important;
+}
+
+.header-content-right {
+  display: flex;
+  gap: 16px;
+}
+
+// lng
+.lng {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+
+  .lng-en {
+    padding: 0 8px;
+    cursor: pointer;
+  }
+
+  .lng-vi {
+    padding: 0 8px;
+    cursor: pointer;
+  }
+
+  .lng-en.active {
+    color: rgb(41, 41, 244);
+  }
+
+  .lng-vi.active {
+    color: rgb(41, 41, 244);
+  }
+
+  .lng-en {
+    border-right: 1px solid #333;
+  }
+}

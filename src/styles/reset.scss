@@ -1,0 +1,31 @@
+.ant-pro-footer-bar {
+  z-index: 1000;
+  background-color: white;
+}
+
+.ant-menu-horizontal {
+  border-bottom: unset !important;
+}
+
+.ant-form-item-required {
+  height: 100% !important;
+}
+
+.ant-menu {
+  background-color: transparent;
+}
+
+.ant-menu-item {
+  color: #272343 !important;
+}
+
+.ql-editor {
+  min-height: 350px !important;
+  overflow: hidden;
+}
+
+.customize-form-item {
+  .ant-form-item {
+    margin-bottom: 0 !important;
+  }
+}
