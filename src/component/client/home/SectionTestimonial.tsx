@@ -13,6 +13,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { isMobile } from "react-device-detect";
+import styles from "@/styles/client.module.scss";
 
 const SectionTestimonial = () => {
   const { t } = useTranslation();
@@ -62,9 +63,9 @@ const SectionTestimonial = () => {
   };
 
   return (
-    <div className="py-[80px] bg-[#F0F2F3] flex justify-center">
-      <div className="container">
-        <div className="flex justify-between items-center gap-3 lg:gap-0 mb-[45px] mx-2 lg:mx-0">
+    <div className="py-[80px] bg-[#F0F2F3]">
+      <div className={styles["container"]}>
+        <div className="flex justify-between items-center gap-2 lg:gap-0 mb-[45px] lg:mx-0">
           <h2 className="text-4xl font-semibold">
             {t("What Client Says About Us")}
           </h2>
@@ -97,16 +98,16 @@ const SectionTestimonial = () => {
             nextEl: ".swiper-button-next",
           }}
           modules={[Navigation, Autoplay]}
-          className="swiper-container"
+          className="swiper-container rounded-lg"
           ref={swiperRef}
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
               <div
                 className="bg-white p-6 rounded-lg shadow-md flex flex-col items-start 
-              justify-between w-auto lg:w-[580px] h-[320px] lg:h-[230px] mx-2 lg:mx-0"
+              justify-between w-auto lg:w-[560px] h-[320px] lg:h-[230px] lg:mx-0"
               >
-                <p className="text-lg mb-4 pl-[24px] border-l-2 border-[#029FAE]">
+                <p className="text-lg mb-4 pl-[24px] border-l-2 border-[#029FAE] h-[224px] lg:h-auto overflow-y-auto lg:overflow-y-hidden">
                   {testimonial.text}
                 </p>
                 <div className="flex items-center mt-4">

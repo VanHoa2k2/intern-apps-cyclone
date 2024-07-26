@@ -1,18 +1,27 @@
-import React from "react";
+"use client";
+import React, { memo } from "react";
+import { motion } from "framer-motion";
 import styles from "@/styles/client.module.scss";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import productImage from "@/assets/image/Product Image.png";
-import box from "@/assets/image/box.png";
-import delivery from "@/assets/image/delivery-truck.png";
-import hours from "@/assets/image/24-hours.png";
-import shield from "@/assets/image/shield.png";
+import productImage from "@/assets/image/Product Image.webp";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
+import DiscountCard from "./DiscountCard";
 
 const SectionBg = () => {
   const router = useRouter();
   const { t } = useTranslation();
+
+  const leftVariants = {
+    hidden: { opacity: 0, x: -110 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1 } },
+  };
+
+  const rightVariants = {
+    hidden: { opacity: 0, x: 110 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1 } },
+  };
 
   return (
     <div className="relative">
@@ -20,7 +29,12 @@ const SectionBg = () => {
         <div
           className={`${styles["container"]} flex items-center lg:gap-[133px]`}
         >
-          <div className="flex flex-col lg:w-[631px] lg:height-[323px] items-center lg:items-start">
+          <motion.div
+            className="flex flex-col lg:w-[631px] lg:height-[323px] items-center lg:items-start"
+            initial="hidden"
+            animate="visible"
+            variants={leftVariants}
+          >
             <p className="text-[#272343] tracking-[1.68px] uppercase text-[14px] font-normal">
               {t("Welcome to chairy")}
             </p>
@@ -34,15 +48,23 @@ const SectionBg = () => {
               <span className="mr-5">{t("Shop Now")}</span>{" "}
               <ArrowRightOutlined />
             </button>
-          </div>
+          </motion.div>
 
-          <div className="hidden lg:block relative w-[475px] h-[649px]">
+          <motion.div
+            className="hidden lg:block relative w-[475px] h-[649px]"
+            initial="hidden"
+            animate="visible"
+            variants={rightVariants}
+          >
             <div className="relative z-10">
               <Image
                 src={productImage}
                 alt="Hero image"
                 width={475}
                 height={649}
+                priority
+                loading="eager"
+                quality={75}
               />
               <div className="absolute top-0 right-[-40px] w-[140px] h-[124px] ">
                 <div className="relative">
@@ -70,64 +92,16 @@ const SectionBg = () => {
               </div>
             </div>
             <div className="hidden lg:block absolute top-0 w-[700px] h-[700px] bg-[#E1E3E5] rounded-[50%] translate-x-[-146px] translate-y-[-200px]"></div>
-          </div>
+          </motion.div>
         </div>
       </div>
       <div className="lg:absolute bottom-0 ml-auto mr-auto lg:translate-y-[50%] w-full">
         <div className={styles["container"]}>
-          <div
-            className="px-[50px] py-[30px] lg:py-[70px] bg-[#fff] flex flex-wrap gap-8 lg:gap-0 justify-between rounded-[12px]"
-            style={{ boxShadow: "0px 24px 100px 0px rgba(22, 25, 50, 0.07)" }}
-          >
-            <div className="flex items-center gap-4">
-              <Image src={box} alt="box" width={46} height={46} />
-              <div>
-                <div className="text-[18px] font-medium leading-[110%]">
-                  {t("Discount")}
-                </div>
-                <div className="text-[15px] text-[#9A9CAA] font-normal">
-                  {t("Every week new sales")}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Image src={delivery} alt="box" width={46} height={46} />
-              <div>
-                <div className="text-[18px] font-medium leading-[110%]">
-                  {t("Free Delivery")}
-                </div>
-                <div className="text-[15px] text-[#9A9CAA] font-normal">
-                  {t("100% Free for all orders")}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Image src={hours} alt="box" width={46} height={46} />
-              <div>
-                <div className="text-[18px] font-medium leading-[110%]">
-                  {t("Great Support 24/7")}
-                </div>
-                <div className="text-[15px] text-[#9A9CAA] font-normal">
-                  {t("We care your experiences")}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Image src={shield} alt="box" width={46} height={46} />
-              <div>
-                <div className="text-[18px] font-medium leading-[110%]">
-                  {t("Secure Payment")}
-                </div>
-                <div className="text-[15px] text-[#9A9CAA] font-normal">
-                  {t("100% Secure Payment Methods")}
-                </div>
-              </div>
-            </div>
-          </div>
+          <DiscountCard />
         </div>
       </div>
     </div>
   );
 };
 
-export default SectionBg;
+export default memo(SectionBg);
