@@ -1,35 +1,37 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import {
   ShoppingCartOutlined,
   DashOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
+  LoginOutlined,
 } from "@ant-design/icons";
 import { Avatar, Drawer, Dropdown, MenuProps, Space, message } from "antd";
 import { Menu, ConfigProvider } from "antd";
 import styles from "@/styles/client.module.scss";
 import { isMobile } from "react-device-detect";
-import { FaReact } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { callLogout } from "@/config/api";
 import { setLogoutAction } from "@/redux/slice/accountSlice";
 import { GrLanguage } from "react-icons/gr";
-import ENLanguage from "@/assets/image/EN.png";
-import VILanguage from "@/assets/image/VI.png";
+import ENLanguage from "@/assets/image/EN.webp";
+import VILanguage from "@/assets/image/VI.webp";
 import logo from "@/assets/logo/logo.png";
-import { useTranslation } from "react-i18next";
-import { locales } from "@/i18n/i18n";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { BiRegistered } from "react-icons/bi";
 
-const Header = (props: any) => {
+interface IProps {
+  t: (key: string) => string;
+  i18n: any;
+  currentLanguage: string;
+}
+
+const Header = (props: IProps) => {
+  const { t, i18n, currentLanguage } = props;
   const router = useRouter();
   const dispatch = useAppDispatch();
-
-  const { t, i18n } = useTranslation();
-  const currentLanguage = locales[i18n.language as keyof typeof locales];
 
   const isAuthenticated = useAppSelector(
     (state) => state?.account?.isAuthenticated
@@ -75,8 +77,8 @@ const Header = (props: any) => {
 
   const stickyHeaderFunc = useCallback(() => {
     if (
-      document.body.scrollTop > 116 ||
-      document.documentElement.scrollTop > 116
+      document.body.scrollTop > 80 ||
+      document.documentElement.scrollTop > 80
     ) {
       headerRef?.current?.classList?.add(styles.sticky__header);
     } else {
@@ -87,35 +89,52 @@ const Header = (props: any) => {
   useEffect(() => {
     window.addEventListener("scroll", stickyHeaderFunc);
 
-    // Cleanup event listener khi component unmount
+    // Cleanup event listener when component unmount
     return () => window.removeEventListener("scroll", stickyHeaderFunc);
   }, [stickyHeaderFunc]);
 
-  const itemsDropdown = [
-    {
-      label: (
-        <Link href={"/purchase-order"} style={{ cursor: "pointer" }}>
-          {t("Purchase order")}
-        </Link>
-      ),
-      key: "purchase-order",
-      icon: <ShoppingCartOutlined />,
-    },
-    {
-      label: <Link href={"/admin/product"}>{t("Dashboard")}</Link>,
-      key: "admin",
-      icon: <DashOutlined />,
-    },
-    {
-      label: (
-        <label style={{ cursor: "pointer" }} onClick={() => handleLogout()}>
-          {t("Log out")}
-        </label>
-      ),
-      key: "logout",
-      icon: <LogoutOutlined />,
-    },
-  ];
+  const itemsDropdown =
+    user && user?.name
+      ? [
+          {
+            label: (
+              <Link href={"/purchase-order"} style={{ cursor: "pointer" }}>
+                {t("Purchase order")}
+              </Link>
+            ),
+            key: "purchase-order",
+            icon: <ShoppingCartOutlined />,
+          },
+          {
+            label: <Link href={"/admin/product"}>{t("Dashboard")}</Link>,
+            key: "admin",
+            icon: <DashOutlined />,
+          },
+          {
+            label: (
+              <label
+                style={{ cursor: "pointer" }}
+                onClick={() => handleLogout()}
+              >
+                {t("Log out")}
+              </label>
+            ),
+            key: "logout",
+            icon: <LogoutOutlined />,
+          },
+        ]
+      : [
+          {
+            label: <Link href={"/register"}>{t("Register")}</Link>,
+            key: "register",
+            icon: <BiRegistered />,
+          },
+          {
+            label: <Link href={"/login"}>{t("Login")}</Link>,
+            key: "login",
+            icon: <LoginOutlined />,
+          },
+        ];
 
   const onLanguageChange: MenuProps["onClick"] = ({ key }) => {
     i18n.changeLanguage(key);
@@ -131,6 +150,7 @@ const Header = (props: any) => {
             width={100}
             height={20}
             style={{ height: "20px" }}
+            loading="lazy"
           />
           English
         </label>
@@ -145,6 +165,7 @@ const Header = (props: any) => {
             alt="language vietnam"
             width={100}
             height={20}
+            loading="lazy"
           />
           Tiếng Việt
         </label>
@@ -170,7 +191,13 @@ const Header = (props: any) => {
           {!isMobile ? (
             <div className="flex gap-[60px]">
               <Link href={"/"} className={styles["brand"]}>
-                <Image src={logo} alt="logo" width={40} height={40} />
+                <Image
+                  src={logo}
+                  alt="logo"
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                />
                 <div className={styles["brand-name"]}>Comforty</div>
               </Link>
               <div className={styles["top-menu"]}>
@@ -211,9 +238,9 @@ const Header = (props: any) => {
                       >
                         <path
                           stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                         />
                       </svg>
@@ -252,7 +279,17 @@ const Header = (props: any) => {
                     </Space>
                   </Dropdown>
                   {isAuthenticated === false ? (
-                    <Link href={"/login"}>{t("Login")}</Link>
+                    <div className="flex items-center">
+                      <Link
+                        className="pr-3 border-r border-solid border-[#ccc] leading-[120%]"
+                        href={"/register"}
+                      >
+                        {t("Register")}
+                      </Link>
+                      <Link className="ml-3 leading-[120%]" href={"/login"}>
+                        {t("Login")}
+                      </Link>
+                    </div>
                   ) : (
                     <Dropdown
                       menu={{ items: itemsDropdown }}
@@ -278,27 +315,20 @@ const Header = (props: any) => {
                 <Image src={logo} alt="logo" width={40} height={40} />
                 <div className={styles["brand-name"]}>Comforty</div>
               </Link>
-              <Space style={{ cursor: "pointer" }}>
-                <span>{user?.name}</span>
-                <Avatar style={{ display: "flex", alignItems: "center" }}>
-                  {" "}
-                  {user?.name?.substring(0, 1)?.toUpperCase()}{" "}
-                </Avatar>
-              </Space>
+              {user && user?.name && (
+                <Space style={{ cursor: "pointer" }}>
+                  <span>{user?.name}</span>
+                  <Avatar style={{ display: "flex", alignItems: "center" }}>
+                    {" "}
+                    {user?.name?.substring(0, 1)?.toUpperCase()}{" "}
+                  </Avatar>
+                </Space>
+              )}
               <MenuFoldOutlined onClick={() => setOpenMobileMenu(true)} />
             </div>
           )}
         </div>
       </div>
-      {/* <div className="bg-[#b9cff7] py-1">
-        <div className={`${styles["container"]} ${styles["mobile-container"]}`}>
-          <ul className="flex gap-[60px] text-xl justify-center text-[#1a2421]">
-            {categories.map((category: ICategory) => (
-              <li key={category?.id}>{category?.name}</li>
-            ))}
-          </ul>
-        </div>
-      </div> */}
       <Drawer
         title="Chức năng"
         placement="right"
@@ -316,4 +346,4 @@ const Header = (props: any) => {
   );
 };
 
-export default Header;
+export default memo(Header);

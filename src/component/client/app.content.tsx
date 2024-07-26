@@ -2,21 +2,27 @@
 
 import { useAppDispatch } from "@/redux/hook";
 import { fetchAccount } from "@/redux/slice/accountSlice";
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import Header from "@/component/client/header.client";
-import Footer from "@/component/client/footer.client";
 import styles from "@/styles/app.module.scss";
 import "@/styles/reset.scss";
 import { usePathname } from "next/navigation";
 import LayoutApp from "../share/layout.app";
-import { MessengerChat } from "react-messenger-chat-plugin";
-
+import dynamic from "next/dynamic";
+import { useTranslation } from "react-i18next";
+import { locales } from "@/i18n/i18n";
+const Footer = dynamic(() => import("@/component/client/footer.client"), {
+  ssr: false,
+});
 interface IProps {
   children: React.ReactNode;
 }
 const AppContent = (props: IProps) => {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
+
+  const { t, i18n } = useTranslation();
+  const currentLanguage = locales[i18n.language as keyof typeof locales];
 
   useEffect(() => {
     if (pathname === "/login" || pathname === "/register") return;
@@ -26,9 +32,7 @@ const AppContent = (props: IProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (rootRef && rootRef.current) {
-      rootRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    rootRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [pathname]);
 
   const [isClient, setIsClient] = useState(false);
@@ -46,13 +50,13 @@ const AppContent = (props: IProps) => {
     ? isClient && (
         <LayoutApp>
           <div className="layout-app" ref={rootRef}>
-            <Header />
+            <Header t={t} i18n={i18n} currentLanguage={currentLanguage} />
             <div className={styles["content-app"]}>{props.children}</div>
-            <Footer />
+            <Footer t={t} />
           </div>
         </LayoutApp>
       )
     : props.children;
 };
 
-export default AppContent;
+export default memo(AppContent);

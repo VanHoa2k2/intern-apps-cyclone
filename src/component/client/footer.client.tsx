@@ -12,9 +12,13 @@ import { FaYoutube } from "react-icons/fa";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCategory } from "@/redux/slice/categorySlice";
-import { useTranslation } from "react-i18next";
 
-const Footer = () => {
+interface IProps {
+  t: (key: string) => string;
+}
+
+const Footer = (props: IProps) => {
+  const { t } = props;
   const categories = useAppSelector((state) => state?.category?.result);
   const year = new Date().getFullYear();
 
@@ -46,8 +50,6 @@ const Footer = () => {
       icon: <FaYoutube />,
     },
   ];
-
-  const { t } = useTranslation();
 
   return (
     <footer>
