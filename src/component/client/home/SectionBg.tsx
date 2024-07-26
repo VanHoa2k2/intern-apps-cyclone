@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import { motion } from "framer-motion";
 import styles from "@/styles/client.module.scss";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import productImage from "@/assets/image/Product Image.webp";
+import productImage from "@/assets/image/Product Image.png";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
